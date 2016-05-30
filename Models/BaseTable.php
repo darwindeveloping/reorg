@@ -23,9 +23,10 @@ class BaseTable {
 
 //        $result = $select->execute();
     }
-
     public function getAll(){
-
+       return dbHandler::getAll(
+            'SELECT * FROM '.$this->getTable()
+        );
     }
 
     public function getTable(){

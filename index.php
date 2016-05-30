@@ -13,7 +13,7 @@ require_once 'includes/configs.php';
             this.getData();
         },
         getData:function(){
-            $.post( 'https://openpaymentsdata.cms.gov/resource/physician-profile-data-2013.json?$$app_token=BHbrkSvR3fFt91Xrb5jTuVnrd&recall_id=94',
+            $.post( '/Controllers/',
                 {
 
                 },

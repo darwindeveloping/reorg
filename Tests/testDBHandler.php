@@ -12,4 +12,4 @@
 
 require_once 'index.php';
 
-print_r(  dbHandler::getAll('select * from doctor_lunch_money' ) );
+var_dump(  dbHandler::getAll('select * from doctor_lunch_money' ) );
