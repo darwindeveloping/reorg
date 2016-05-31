@@ -25,7 +25,7 @@ class BaseTable {
     }
     public function getAll(){
        return dbHandler::getAll(
-            'SELECT * FROM '.$this->getTable()
+            'SELECT * FROM '.$this->getTable().' LIMIT  10'
         );
     }
 
@@ -34,6 +34,13 @@ class BaseTable {
     }
 
     public function add( $row ){
+
+        if( isset( $row[ 'name_of_third_party_entity_receiving_payment_or_transfer_of_value'])){
+            $value = $row[ 'name_of_third_party_entity_receiving_payment_or_transfer_of_value'];
+            unset( $row[ 'name_of_third_party_entity_receiving_payment_or_transfer_of_value']);
+            $row[ 'name_of_third_party_entity_receiving_payment_or_transfer_of_valu'] = $value;
+        }
+
         $parameters = $this->getParameters($row );
 
         dbHandler::Execute(
