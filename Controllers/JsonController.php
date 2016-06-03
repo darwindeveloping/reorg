@@ -13,8 +13,14 @@ class JsonController {
     public function getAll(){
         $filters = '';
 
+        $options = [
+            'length' => $_POST[ 'length'],
+            'start' =>  $_POST[ 'start'],
+        ];
+
+
         $lmTable = new lunchMoneyTable();
 
-        return  $lmTable->getAll();
+        return  $lmTable->getAll( $options );
     }
 }

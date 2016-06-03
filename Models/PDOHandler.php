@@ -68,7 +68,6 @@ class PDOHandler{
 
 		try {
 			$this->_mStatementHandler = $this->_mHandler->prepare( $this->mSQL );
-		
 			return $this->_mStatementHandler->execute( $this->_mParameters );
 		} catch( PDOException $e ) {
 			echo  $e->getMessage().PHP_EOL;
@@ -90,7 +89,9 @@ class PDOHandler{
 		$this->execute( );
 		
 		$row = $this->_mStatementHandler->fetch( PDO::FETCH_NUM );
-		
+
+
+
 		return $row[ 0 ];
 	}
 	

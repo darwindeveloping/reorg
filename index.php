@@ -1,67 +1,55 @@
 <html>
 <head>
-    <link rel="stylesheet" src="http://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
     <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
-</head>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<style>
+    THEAD{
+        background-color:silver;
+    }
+    THEAD TH{
+        border-left:1px solid black;
+    }
+    td.details-control {
+        background: url('images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url('images/details_close.png') no-repeat center center;
+    }
+</style>
 <body>
-<table id="dataTable" class="display" cellspacing="0" width="100%">
-    <thead>
+<table id="dataTable" class="stripe cell-border" cellspacing="0" width="100%">
+    <thead style="background-color:silver;">
         <tr>
             <th></th>
-            <th colspan="4">Physician Name</th>
-            <th colspan="2">Teaching Hospital Info</th>
-            <th colspan="4">Physician Info</th>
-            <th colspan="20"></th>
-
+            <th colspan="3">Physician Name</th>
+            <th colspan="2">Payment Information</th>
+            <th></th>
         </tr>
         <tr>
             <th>Record ID</th>
-            <th>Suffix</th>
             <th>First</th>
-            <th>M</th>
+            <th>Middle</th>
             <th>Last</th>
-            <th> ID</th>
-            <th>Name</th>
-            <th>Specialty</th>
-            <th>Primary Type</th>
-            <th>Profile Id</th>
-            <th>Ownership Indicator</th>
-            <th>Physician License State Code 1</th>
-            <th>Physician License State Code 2</th>
-            <th>Physician License State Code 3</th>
-            <th>Physician License State Code 4</th>
-            <th>Physician License State Code 5</th>
-            <th>Total Amount Of Payment US Dollars</th>
-            <th>Number Of Payments Included In Total Amount</th>
+            <th>Total Amount</th>
             <th>Date Of Payment</th>
-            <th>Form Of Payment Or Transfer Of Value</th>
-            <th>Charity Indicator</th>
-            <th>Payment Publication Date</th>
-            <th>City Of Travel</th>
-            <th>State Of Travel</th>
-            <th>Covered Recipient Type</th>
-            <th>Recipient Primary Business Street Address Line1</th>
-            <th>Recipient Primary Business Street Address Line2</th>
-            <th>Recipient City</th>
-            <th>Recipient State</th>
-            <th>Recipient Zip Code</th>
-            <th>Recipient Country</th>
-
             <th></th>
     </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <th>Dr</th>
-            <th>Darwin</th>
-            <th>M</th>
-            <th>Salgado</th>
-            <th>3</th>
-            <th>Methodist Hospital</th>
-        </tr>
     </tbody>
+    <tfoot>
+
+    </tfoot>
 </table>
 </body>
 <script>
@@ -84,47 +72,37 @@
                 },
                 "columns": [
                     {'data': "record_id"},
-                    {'data': "physician_name_suffix"},
                     {'data': 'physician_first_name'},
                     {'data':'physician_middle_name'},
                     {'data': "physician_last_name"},
-                    {'data':'teaching_hospital_id'},
-                    {'data':'teaching_hospital_name'},
-                    {'data': "physician_specialty"},
-                    {'data': "physician_primary_type"},
-                    {'data': 'physician_profile_id'},
-                    {'data':'physician_ownership_indicator'},
-                    {'data': "physician_license_state_code1"},
-                    {'data':'physician_license_state_code2'},
-                    {'data':'physician_license_state_code3'},
-                    {'data': "physician_license_state_code4"},
-                    {'data': "physician_license_state_code5"},
                     {'data': 'total_amount_of_payment_usdollars'},
-                    {'data':'date_of_payment'},
-                    {'data': "form_of_payment_or_transfer_of_value"},
-                    {'data':'charity_indicator'},
-                    {'data':'payment_publication_date'},
-                    {'data':'city_of_travel'},
-                    {'data':'state_of_travel'},
-                    {'data':'country_of_travel'},
-                    {'data':'covered_recipient_type'},
-                    {'data':'recipient_primary_business_street_address_line1'},
-                    {'data':'recipient_primary_business_street_address_line2'},
-                    {'data':'recipient_city'},
-                    {'data':'recipient_state'},
-                    {'data':'recipient_zip_code'},
-                    {'data':'recipient_country'}
+                    {'data':'date_of_payment',
+                        'render':function( dates ){
+                            var inputs = dates.split( ' ' );
+                            var d = inputs[ 0].split( '-');
+                            var t = inputs[ 1].split( ':');
+                            var td = new Date( d[ 0 ], d[1], d[2], t[ 0 ],t[1], t[2]  );
+
+                            return td.toDateString();
+                        }
+                    },
+                    {
+                        "className":      'details-control',
+                        "orderable":      false,
+                        "data":           null,
+                        "defaultContent": ''
+                    },
                 ],
 
                 "order": [
                     [0, "asc"]
                 ],
                 "lengthMenu": [
-                    [10, 20, 30, -1],
-                    [10, 20, 30, "All"] // change per page values here
+                    [50, 100, 200, -1],
+                    [50, 100, 200, "All"] // change per page values here
                 ],
                 // set the initial value
-                "pageLength": 10,
+                "pageLength": 50,
                 "language": {
                     "lengthMenu": "_MENU_ records",
                     "paginate": {
@@ -135,18 +113,135 @@
                     }
                 }
             });
+            var that = this;
 
-            /*
-             var that = this;
-             $(document).on( 'init.dt', function ( e, settings ) {
-             that.checkAllFields( $( '#checkAllManufacturers' ) );
-             } );
+            $('#dataTable tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = that.dtable.row( tr );
 
-             $(document).on( 'draw.dt', function ( e, settings ) {
-             that.checkAllFields( $( '#checkAllManufacturers' ) );
-             } );
+                if ( row.child.isShown() ) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child( that.displayRowInfo(row.data()) ).show();
+                    tr.addClass('shown');
+                }
+            } );
+        },
+        displayRowInfo:function( row ){
+            var result = '<div class="row">';
+                    result += '<div class="col-sm-4">' +
+                            '<h4>Payment Info:</h4>'+
+                            '<i>Form of Payment: </i>'+row.form_of_payment_or_transfer_of_value+'<br/>'+
+                            '<i>Nature of Payment: </i>'+row.nature_of_payment_or_transfer_of_value+'<br/>'+
+                            '<i>Third Party Recipient Indicator: </i>'+row.third_party_payment_recipient_indicator+'<br/>'+
+                            '<i>Number of Payments Included: </i>'+row.number_of_payments_included_in_total_amount+
+                            '</div>';
+                    result += '<div class="col-sm-4">' +
+                              '<h4>Manufacturer or GPO Making Payment Info:</h4>'+
+                                '<i>ID: </i>'+row.applicable_manufacturer_or_applicable_gpo_making_payment_id+'<br/>'+
+                                '<i>Name:</i> '+row.applicable_manufacturer_or_applicable_gpo_making_payment_name+'<br/>'+
+                                '<i>Submitting Name: </i>'+row.submitting_applicable_manufacturer_or_applicable_gpo_name+'<br/>'+
+                                '<i>Country: </i>'+row.applicable_manufacturer_or_applicable_gpo_making_payment_country+'<br/>'+
+                                '</div>';
 
-             */
+                    var license = row.physician_license_state_code1;
+
+                    if( row.physician_license_state_code2.length > 0 ){
+                        license += ', '+row.physician_license_state_code2;
+                    }
+                    if( row.physician_license_state_code3.length > 0 ){
+                        license += ', '+row.physician_license_state_code3;
+                    }
+                    if( row.physician_license_state_code4.length > 0 ){
+                        license += ', '+row.physician_license_state_code4;
+                    }
+                    if( row.physician_license_state_code5.length > 0 ){
+                        license += ', '+row.physician_license_state_code5;
+                    }
+
+                    result += '<div class="col-sm-4">' +
+                                '<h4>Physician Info: </h4>'+
+                                '<i>Specialty:</i>'+row.physician_specialty+'<br/>'+
+                                '<i>Primary Type:</i>'+row.physician_primary_type+'<br/>'+
+                                '<i>License States: </i>'+license+'<br/>'+
+                                '<i>Ownership Indicator: </i>'+row.physician_ownership_indicator+'<br/>'+
+                                '</div>';
+            if( parseInt( row.teaching_hospital_id ) > 0 ){
+                        result += '<div class="col-sm-4">' +
+                                    '<h4>Teaching Hospital:</h4>'+
+                                    '<i>ID: </i>'+row.teaching_hospital_id+'<br/>'+
+                                    '<i>Name: </i>'+row.teaching_hospital_name+
+                                    '</div>';
+                    }
+                    if( row.city_of_travel.length > 0 ){
+                        result += '<div class="col-sm-4">' +
+                                    '<h4>Travel Info:</h4> '+
+                                    ' '+row.city_of_travel+', '+row.state_of_travel+'<br/>' +
+                                       row.country_of_travel+
+                                    '</div>';
+                    }
+                    if( row.recipient_primary_business_street_address_line1.length > 0 ){
+                        result += '<div class="col-sm-4">' +
+                                    '<h4>Recipient Address:</h4>'+
+                                        row.recipient_primary_business_street_address_line1+' '+row.recipient_primary_business_street_address_line2+'<br/>'+
+                                        row.recipient_city+', '+row.recipient_state+' '+row.recipient_zip_code+'<br/>'+
+                                        row.recipient_country+
+                                        '</div>';
+                    }
+                    var drug_biological = '';
+                    if( row.name_of_associated_covered_drug_or_biological1.length > 0 ){
+                        drug_biological += '<li>'.row.name_of_associated_covered_drug_or_biological1+'</li>';
+                    }
+                    if( row.name_of_associated_covered_drug_or_biological2.length > 0 ){
+                        drug_biological += '<li>'.row.name_of_associated_covered_drug_or_biological2+'</li>';
+                    }
+                    if( row.name_of_associated_covered_drug_or_biological3.length > 0 ){
+                        drug_biological += '<li>'.row.name_of_associated_covered_drug_or_biological3+'</li>';
+                    }
+                    if( row.name_of_associated_covered_drug_or_biological4.length > 0 ){
+                        drug_biological += '<li>'.row.name_of_associated_covered_drug_or_biological4+'</li>';
+                    }
+                    if( row.name_of_associated_covered_drug_or_biological5.length > 0 ){
+                        drug_biological += '<li>'.row.name_of_associated_covered_drug_or_biological5+'</li>';
+                    }
+
+                    if( drug_biological.length > 0 ){
+                        result +=  '<div class="col-sm-4">' +
+                                        '<h4>Name Of Associated Covered Drug or Biological</h4>'+
+                                            drug_biological.length+
+                                    '</div>';
+                    }
+
+            drug_biological = '';
+            if( row.ndc_of_associated_covered_drug_or_biological1.length > 0 ){
+                drug_biological += '<li>'.row.ndc_of_associated_covered_drug_or_biological1+'</li>';
+            }
+            if( row.ndc_of_associated_covered_drug_or_biological2.length > 0 ){
+                drug_biological += '<li>'.row.ndc_of_associated_covered_drug_or_biological2+'</li>';
+            }
+            if( row.ndc_of_associated_covered_drug_or_biological3.length > 0 ){
+                drug_biological += '<li>'.row.ndc_of_associated_covered_drug_or_biological3+'</li>';
+            }
+            if( row.ndc_of_associated_covered_drug_or_biological4.length > 0 ){
+                drug_biological += '<li>'.row.ndc_of_associated_covered_drug_or_biological4+'</li>';
+            }
+            if( row.ndc_of_associated_covered_drug_or_biological5.length > 0 ){
+                drug_biological += '<li>'.row.ndc_of_associated_covered_drug_or_biological5+'</li>';
+            }
+
+            if( drug_biological.length > 0 ){
+                result +=  '<div class="col-sm-4">' +
+                '<h4>NDC Of Associated Covered Drug or Biological</h4>'+
+                drug_biological.length+
+                '</div>';
+            }
+
+                    result+='</div>';
+            return result;
         }
     };
 

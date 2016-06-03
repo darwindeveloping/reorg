@@ -23,9 +23,17 @@ class BaseTable {
 
 //        $result = $select->execute();
     }
-    public function getAll(){
+    public function getAll(array $options = []){
+        $options += [
+            'length' => 50,
+            'start'  => 0,
+        ];
+
        return dbHandler::getAll(
-            'SELECT * FROM '.$this->getTable().' LIMIT  10'
+            'SELECT * FROM '.$this->getTable().
+            ' ORDER BY record_id DESC
+            LIMIT  '.$options[ 'length'].
+            ' OFFSET '.$options[ 'start']
         );
     }
 

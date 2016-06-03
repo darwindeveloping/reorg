@@ -45,6 +45,7 @@ class dbHandler{
 
 	//return the first column value from a row
 	public static function getOne( $sqlQuery, $params = null ){
+        echo PHP_EOL;
 		$mP = array( 'sql' => $sqlQuery );
 		
 		if( $params != null ){
@@ -56,7 +57,6 @@ class dbHandler{
 		return $pdo->getOne();
 		
 	}
-	
 	public static function getLastID(){
 		return self::getOne( 'SELECT LAST_INSERT_ID()' );
 	}
