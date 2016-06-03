@@ -32,7 +32,7 @@ class PDOHandler{
 			//set PDO to acccept exceptions
 			$this->_mHandler->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		} catch( PDOException $e ) {
-			echo $e->getMesage().PHP_EOL;
+			echo $e->getMessage().PHP_EOL;
 			$this->close();
 			trigger_error( $e->getMessage(), E_USER_ERROR );
 		}catch( Exception $e ){
