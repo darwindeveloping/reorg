@@ -5,7 +5,9 @@
  * Date: 5/30/16
  * Time: 8:38 PM
  */
-require_once 'includes/configs.php';
+
+echo dirname( dirname( __FILE__ ) ).PHP_EOL;
+require_once dirname( dirname( __FILE__ ) ).'/includes/configs.php';
 
 function  my_autoload( $class )
 {
