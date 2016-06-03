@@ -1,22 +1,32 @@
 <html>
 <head>
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.dataTables.min.css">
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-    <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
+    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/1.2.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.datatables.net/buttons/1.2.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.datatables.net/buttons/1.2.1/js/buttons.colVis.min.js"></script>
+         <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <style>
     THEAD{
         background-color:silver;
     }
     THEAD TH{
-        border-left:1px solid black;
+        border-left:1px solid silver;
     }
     td.details-control {
         background: url('images/details_open.png') no-repeat center center;
@@ -27,6 +37,9 @@
     }
 </style>
 <body>
+
+<h1>Open Payment Data</h1>
+
 <table id="dataTable" class="stripe cell-border" cellspacing="0" width="100%">
     <thead style="background-color:silver;">
         <tr>
@@ -47,43 +60,87 @@
     </thead>
     <tbody>
     </tbody>
-    <tfoot>
-
-    </tfoot>
 </table>
 </body>
 <script>
     var data = {
         init:function(){
+            var that = this;
             this.mTable= $( '#dataTable' );
             this.loadData();
-
         },
         loadData:function(){
              if ($.fn.DataTable.isDataTable(this.mTable.selector)) {
-             this.mTable.DataTable().clear().destroy();
+                this.mTable.DataTable().clear().destroy();
              }
             this.dtable = this.mTable.DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend:'excel',
+                        text: 'Export To Excel',
+                        exportOptions: {
+                            modifier: {
+                                search: 'applied',
+                                order: 'applied'
+                            }
+                        }
+                    },
+                    {
+                        extend:'pdf',
+                        text:'Export To PDF',
+                        exportOptions:{
+                            modifier:{
+                                search:'applied',
+                                order:'applied'
+                            }
+                        }
+                    },
+                    {
+                        extend:'colvis',
+                        columns:[0,1,2,3,4],
+                        collectionLayout: 'fixed two-column'
+                    }
+                ],
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "http://reorg.local/json/json.php",
+                    "url": "json/json.php",
                     "type": 'POST'
                 },
                 "columns": [
-                    {'data': "record_id"},
-                    {'data': 'physician_first_name'},
-                    {'data':'physician_middle_name'},
-                    {'data': "physician_last_name"},
-                    {'data': 'total_amount_of_payment_usdollars'},
-                    {'data':'date_of_payment',
+                    {
+                        'data': "record_id",
+                        "orderable":      false
+
+                    },
+                    {
+                        'data': 'physician_first_name',
+                        "orderable":false
+                    },
+                    {
+                        'data':'physician_middle_name',
+                        "orderable":      false,
+
+                    },
+                    {
+                        'data': "physician_last_name",
+                        "orderable":      false
+                    },
+                    {
+                        'data': 'total_amount_of_payment_usdollars',
+                        "orderable":      false
+                    },
+                    {
+                        'data':'date_of_payment',
+                        "orderable":      false,
                         'render':function( dates ){
                             var inputs = dates.split( ' ' );
                             var d = inputs[ 0].split( '-');
                             var t = inputs[ 1].split( ':');
-                            var td = new Date( d[ 0 ], d[1], d[2], t[ 0 ],t[1], t[2]  );
+//                            var td = new Date( d[ 0 ], d[1], d[2], t[ 0 ],t[1], t[2]  );
 
-                            return td.toDateString();
+                            return d[1]+'/'+d[2]+'/'+d[0];
                         }
                     },
                     {
@@ -91,18 +148,16 @@
                         "orderable":      false,
                         "data":           null,
                         "defaultContent": ''
-                    },
+                    }
                 ],
-
-                "order": [
-                    [0, "asc"]
-                ],
-                "lengthMenu": [
-                    [50, 100, 200, -1],
-                    [50, 100, 200, "All"] // change per page values here
+                "columnDefs": [
+                    {
+                        "targets": [ 2 ],
+                        "visible": false,
+                        "searchable": false
+                    }
                 ],
                 // set the initial value
-                "pageLength": 50,
                 "language": {
                     "lengthMenu": "_MENU_ records",
                     "paginate": {
@@ -143,7 +198,7 @@
                     result += '<div class="col-sm-4">' +
                               '<h4>Manufacturer or GPO Making Payment Info:</h4>'+
                                 '<i>ID: </i>'+row.applicable_manufacturer_or_applicable_gpo_making_payment_id+'<br/>'+
-                                '<i>Name:</i> '+row.applicable_manufacturer_or_applicable_gpo_making_payment_name+'<br/>'+
+                                '<i>Name: </i> '+row.applicable_manufacturer_or_applicable_gpo_making_payment_name+'<br/>'+
                                 '<i>Submitting Name: </i>'+row.submitting_applicable_manufacturer_or_applicable_gpo_name+'<br/>'+
                                 '<i>Country: </i>'+row.applicable_manufacturer_or_applicable_gpo_making_payment_country+'<br/>'+
                                 '</div>';
@@ -165,8 +220,8 @@
 
                     result += '<div class="col-sm-4">' +
                                 '<h4>Physician Info: </h4>'+
-                                '<i>Specialty:</i>'+row.physician_specialty+'<br/>'+
-                                '<i>Primary Type:</i>'+row.physician_primary_type+'<br/>'+
+                                '<i>Specialty: </i>'+row.physician_specialty+'<br/>'+
+                                '<i>Primary Type: </i>'+row.physician_primary_type+'<br/>'+
                                 '<i>License States: </i>'+license+'<br/>'+
                                 '<i>Ownership Indicator: </i>'+row.physician_ownership_indicator+'<br/>'+
                                 '</div>';
@@ -249,6 +304,5 @@
     $( function(){
         data.init();
 //        $('#dataTable').DataTable();
-
     });
 </script>

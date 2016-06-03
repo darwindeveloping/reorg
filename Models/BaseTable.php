@@ -23,18 +23,24 @@ class BaseTable {
 
 //        $result = $select->execute();
     }
-    public function getAll(array $options = []){
-        $options += [
-            'length' => 50,
-            'start'  => 0,
-        ];
+    public function getTotalCount( $options ){
+        $sql = 'SELECT COUNT( 0 ) AS total FROM '.$this->getTable();
 
-       return dbHandler::getAll(
-            'SELECT * FROM '.$this->getTable().
-            ' ORDER BY record_id DESC
-            LIMIT  '.$options[ 'length'].
-            ' OFFSET '.$options[ 'start']
-        );
+        return dbHandler::getOne( $sql );
+    }
+
+    public function getAll(array $options = []){
+        $sql = 'SELECT * FROM '.$this->getTable();
+
+     /*   if( isset( $options[ 'search '])){
+            $sql .= 'WHERE '
+        }
+     */   $sql .=  ' ORDER BY date_of_payment DESC';
+/*                    LIMIT '.$options[ 'length'].'
+                    OFFSET '.$options[ 'start'];*/
+
+
+       return dbHandler::getAll( $sql );
     }
 
     public function getTable(){

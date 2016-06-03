@@ -18,9 +18,16 @@ class JsonController {
             'start' =>  $_POST[ 'start'],
         ];
 
+        if( !empty( $_POST[ 'search'] ) ){
+            $options[ 'search' ] = filter_var( $_POST[ 'search'], FILTER_SANITIZE_STRING );
+        }
 
         $lmTable = new lunchMoneyTable();
 
-        return  $lmTable->getAll( $options );
+        $result[ 'data']  =  $lmTable->getAll( $options );
+        $result[ 'total' ] = count( $result[ 'data' ]);
+//        $result[ 'total'] = $lmTable->getTotalCount($options );
+
+        return $result;
     }
 }
