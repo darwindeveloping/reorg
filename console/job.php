@@ -24,13 +24,13 @@ $url = 'https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json';
 //  Initiate curl
 $ch = curl_init();
 // Disable SSL verification
-curl_setopt_array($ch, [
+curl_setopt_array($ch, array(
     CURLOPT_SSL_VERIFYPEER => false,
     // Will return the response, if false it print the response
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_URL => $url,
     CURLOPT_FAILONERROR => true
-]);
+));
 
 // Execute
 if( !( $result=curl_exec($ch) ) ){
