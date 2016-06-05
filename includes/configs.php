@@ -131,7 +131,7 @@ function cronjob_exists($command){
 
     if(isset($crontab)&&is_array($crontab)){
         $crontab = array_flip($crontab);
-
+        var_dump( $crontab  );
         if(isset($crontab[$command])){
             return true;
         }
