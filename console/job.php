@@ -7,13 +7,10 @@
  */
 
 require_once dirname( dirname( __FILE__ ) ).'/includes/configs.php';
-
-function  my_autoload( $class )
-{
-    require_once MODELS_DIR.'/'.$class.'.php';
-}
-
-spl_autoload_register( 'my_autoload' );
+require_once MODELS_DIR.'/BaseTable.php';
+require_once MODELS_DIR.'/lunchMoneyTable.php';
+require_once MODELS_DIR.'/dbHandler.php';
+require_once MODELS_DIR.'/PDOHandler.php';
 
 $url = 'https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json';
 //$ch = curl_init('https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json');
