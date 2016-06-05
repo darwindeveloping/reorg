@@ -44,15 +44,16 @@
     <thead style="background-color:silver;">
         <tr>
             <th></th>
-            <th colspan="3">Physician Info</th>
+            <th colspan="4">Physician Info</th>
             <th colspan="2">Payment Information</th>
             <th></th>
         </tr>
         <tr>
             <th>Record ID</th>
             <th>Name</th>
-            <th>Specialy</th>
             <th>Primary Type</th>
+            <th>Specialy</th>
+            <th>License State</th>
             <th>Total Amount</th>
             <th>Date Of Payment</th>
             <th></th>
@@ -91,18 +92,8 @@
                         title:'export'
                     },
                     {
-                        extend:'pdf',
-                        text:'Export To PDF',
-                        exportOptions:{
-                            modifier:{
-                                search:'applied',
-                                order:'applied'
-                            }
-                        }
-                    },
-                    {
                         extend:'colvis',
-                        columns:[0,1,2,3,4],
+                        columns:[2,3,4,5,6],
                         collectionLayout: 'fixed two-column'
                     }
                 ],
@@ -126,12 +117,33 @@
                         }
                     },
                     {
+                        'data':'physician_primary_type',
+                        'orderable':false
+                    },
+                    {
                         'data':'physician_specialty',
                         'orderable':false
                     },
                     {
-                      'data':'physician_primary_type',
-                        'orderable':false
+                        'data':'physician_license_state_code1',
+                        'orderable':false,
+                        'render':function( code, type, row ){
+                            var codes = code;
+                            if( row.physician_license_state_code2.length > 0 ){
+                                codes +=', '+row.physician_license_state_code2;
+                            }
+                            if( row.physician_license_state_code3.length > 0 ){
+                                codes +=', '+row.physician_license_state_code3;
+                            }
+                            if( row.physician_license_state_code4.length > 0 ){
+                                codes +=', '+row.physician_license_state_code4;
+                            }
+                            if( row.physician_license_state_code5.length > 0 ){
+                                codes +=', '+row.physician_license_state_code5;
+                            }
+
+                            return codes;
+                        }
                     },
                     {
                         'data': 'total_amount_of_payment_usdollars',
@@ -161,7 +173,7 @@
                 ],
                 "columnDefs": [
                     {
-                        "targets": [ 6 ],
+                        "targets": [ 7 ],
                         "visible": false,
                         "searchable": false
                     }

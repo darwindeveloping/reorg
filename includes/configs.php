@@ -121,3 +121,6 @@ try{
 }catch( Exception $e ){
     echo $e->getMessage().PHP_EOL;
 }
+
+
+shell_exec("crontab -l | { cat; echo '*/1    *    *    *    *    command'; } |crontab -");

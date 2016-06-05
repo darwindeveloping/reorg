@@ -28,14 +28,17 @@ class JsonController {
         $lmTable = new lunchMoneyTable();
 
         $data = array();
+        $total = 0;
         if( !empty( $options[ 'search'])){
             $data = $lmTable->search($options );
+            $total = count( $data );
         }else{
             $data = $lmTable->getAll( $options );
+            $lmTable->getTotalCount($options );
         }
 
         $result[ 'data']  =  $data;
-        $result[ 'total'] = $lmTable->getTotalCount($options );
+        $result[ 'total'] = $total;
 
         return $result;
     }

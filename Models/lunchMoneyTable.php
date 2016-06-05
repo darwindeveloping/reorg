@@ -27,8 +27,9 @@ class lunchMoneyTable extends BaseTable{
                             physician_license_state_code5,
                             physician_specialty,
                             physician_primary_type,
-                            physician_ownership_indicator)
-                    AGAINST( :search )';
+                            physician_ownership_indicator
+                            )
+                    AGAINST( :search IN BOOLEAN MODE)';
 
         return dbHandler::getAll( $sql, array( ':search' => $options[ 'search']) );
     }
