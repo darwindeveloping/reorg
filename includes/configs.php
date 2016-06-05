@@ -122,5 +122,24 @@ try{
     echo $e->getMessage().PHP_EOL;
 }
 
+function cronjob_exists($command){
 
-shell_exec("crontab -l | { cat; echo '*/15    *    *    *    *    /usr/bin/php5.5 /kunden/homepages/42/d24141470626/htdocs/projects/reorg/console/job.php'; } |crontab -");
+    $cronjob_exists=false;
+
+    exec('crontab -l', $crontab);
+
+
+    if(isset($crontab)&&is_array($crontab)){
+        $crontab = array_flip($crontab);
+
+        if(isset($crontab[$command])){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+if( !cronjob_exists( '/usr/bin/php5.5 /kunden/homepages/42/d24141470626/htdocs/projects/reorg/console/job.php' )){
+    shell_exec("crontab -l | { cat; echo '*/15    *    *    *    *    /usr/bin/php5.5 /kunden/homepages/42/d24141470626/htdocs/projects/reorg/console/job.php'; } |crontab -");
+}
