@@ -42,6 +42,7 @@ if( empty( $data ) ){
 
 
 $lmTable = new lunchMoneyTable();
+
 foreach( $data AS $row ){
     if( !$lmTable->exist( $row ) ){
         $lmTable->add( $row );
