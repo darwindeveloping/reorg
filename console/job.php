@@ -45,9 +45,6 @@ $lmTable = new lunchMoneyTable();
 
 foreach( $data AS $row ){
     if( !$lmTable->exist( $row ) ){
-        echo $row[ 'record_id'].' was added'.PHP_EOL;
         $lmTable->add( $row );
-    }else{
-        echo $row[ 'record_id'].' already exist'.PHP_EOL;
     }
 }
