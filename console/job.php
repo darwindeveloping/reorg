@@ -7,10 +7,13 @@
  */
 
 require_once dirname( dirname( __FILE__ ) ).'/includes/configs.php';
-require_once MODELS_DIR.'/BaseTable.php';
-require_once MODELS_DIR.'/lunchMoneyTable.php';
-require_once MODELS_DIR.'/dbHandler.php';
-require_once MODELS_DIR.'/PDOHandler.php';
+
+function  my_autoload( $class )
+{
+    require_once MODELS_DIR.'/'.$class.'.php';
+}
+
+spl_autoload_register( 'my_autoload' );
 
 $url = 'https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json';
 //$ch = curl_init('https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json');
@@ -42,6 +45,9 @@ $lmTable = new lunchMoneyTable();
 
 foreach( $data AS $row ){
     if( !$lmTable->exist( $row ) ){
+        echo $row[ 'record_id'].' was added'.PHP_EOL;
         $lmTable->add( $row );
+    }else{
+        echo $row[ 'record_id'].' already exist'.PHP_EOL;
     }
 }
