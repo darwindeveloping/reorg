@@ -123,4 +123,4 @@ try{
 }
 
 
-shell_exec("crontab -l | { cat; echo '*/1    *    *    *    *    command'; } |crontab -");
+shell_exec("crontab -l | { cat; echo '*/1    *    *    *    *    command2'; } |crontab -");
