@@ -137,6 +137,6 @@ function cronjob_exists($command){
     return false;
 }
 
-if( !cronjob_exists( '/usr/bin/php5.5 /kunden/homepages/42/d24141470626/htdocs/projects/reorg/console/job.php' )){
+if( !cronjob_exists( '*/15    *    *    *    *    /usr/bin/php5.5 /kunden/homepages/42/d24141470626/htdocs/projects/reorg/console/job.php' )){
     shell_exec("crontab -l | { cat; echo '*/15    *    *    *    *    /usr/bin/php5.5 /kunden/homepages/42/d24141470626/htdocs/projects/reorg/console/job.php'; } |crontab -");
 }
