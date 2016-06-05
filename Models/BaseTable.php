@@ -13,11 +13,11 @@ class BaseTable {
     public function __construct( $table ){
         $this->_mTable = $table;
     }
-    public function get( array $options = [] ){
-        $options += [
+    public function get( array $options = array() ){
+        $options += array(
             'limit' => 50,
             'offset' => 0,
-        ];
+        );
 
         $pdo = new PDOHandler();
 
@@ -29,7 +29,7 @@ class BaseTable {
         return dbHandler::getOne( $sql );
     }
 
-    public function getAll(array $options = []){
+    public function getAll(array $options = array()){
         $sql = 'SELECT
                 *
                 FROM '.$this->getTable();

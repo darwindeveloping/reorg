@@ -39,9 +39,9 @@ class lunchMoneyTable extends BaseTable{
                 FROM '.$this->getTable().'
                 WHERE record_id = :record_id';
 
-        $result  = dbHandler::getOne( $sql, [
+        $result  = dbHandler::getOne( $sql, array(
             ':record_id' => $row[ 'record_id'],
-        ] );
+        ) );
 
         if( empty( $result ) ){
             return false;
