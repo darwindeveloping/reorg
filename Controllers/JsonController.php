@@ -11,22 +11,31 @@ require_once 'index.php';
 class JsonController {
 
     public function getAll(){
-        $filters = '';
+        $options = array();
 
-        $options = [
-            'length' => $_POST[ 'length'],
-            'start' =>  $_POST[ 'start'],
-        ];
+        $length = filter_var( $_POST['length'], FILTER_SANITIZE_NUMBER_INT );
 
-        if( !empty( $_POST[ 'search'] ) ){
-            $options[ 'search' ] = filter_var( $_POST[ 'search'], FILTER_SANITIZE_STRING );
+        if($length > 0 ){
+            $options['length'] = $length;
+        }
+
+        $options['start'] = $_POST[ 'start'];
+
+        if( !empty( $_POST[ 'search'][ 'value'] ) ){
+            $options[ 'search' ] = filter_var( $_POST[ 'search'][ 'value'], FILTER_SANITIZE_STRING );
         }
 
         $lmTable = new lunchMoneyTable();
 
-        $result[ 'data']  =  $lmTable->getAll( $options );
-        $result[ 'total' ] = count( $result[ 'data' ]);
-//        $result[ 'total'] = $lmTable->getTotalCount($options );
+        $data = array();
+        if( !empty( $options[ 'search'])){
+            $data = $lmTable->search($options );
+        }else{
+            $data = $lmTable->getAll( $options );
+        }
+
+        $result[ 'data']  =  $data;
+        $result[ 'total'] = $lmTable->getTotalCount($options );
 
         return $result;
     }

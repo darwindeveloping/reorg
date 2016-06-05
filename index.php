@@ -44,15 +44,15 @@
     <thead style="background-color:silver;">
         <tr>
             <th></th>
-            <th colspan="3">Physician Name</th>
+            <th colspan="3">Physician Info</th>
             <th colspan="2">Payment Information</th>
             <th></th>
         </tr>
         <tr>
             <th>Record ID</th>
-            <th>First</th>
-            <th>Middle</th>
-            <th>Last</th>
+            <th>Name</th>
+            <th>Specialy</th>
+            <th>Primary Type</th>
             <th>Total Amount</th>
             <th>Date Of Payment</th>
             <th></th>
@@ -65,26 +65,30 @@
 <script>
     var data = {
         init:function(){
-            var that = this;
             this.mTable= $( '#dataTable' );
             this.loadData();
+        },
+        runJob:function(){
+            $.get('console/job.php',
+                function( data ){
+                    console.log( data );
+                });
         },
         loadData:function(){
              if ($.fn.DataTable.isDataTable(this.mTable.selector)) {
                 this.mTable.DataTable().clear().destroy();
              }
             this.dtable = this.mTable.DataTable({
-                dom: 'Bfrtip',
+                dom: 'lBfrtip',
+                lengthMenu: [
+                    [ 100, 200, 500, -1 ],
+                    [ '100 rows', '200 rows', '500 rows', 'Show all' ]
+                ],
                 buttons: [
                     {
                         extend:'excel',
                         text: 'Export To Excel',
-                        exportOptions: {
-                            modifier: {
-                                search: 'applied',
-                                order: 'applied'
-                            }
-                        }
+                        title:'export'
                     },
                     {
                         extend:'pdf',
@@ -111,25 +115,30 @@
                 "columns": [
                     {
                         'data': "record_id",
-                        "orderable":      false
-
-                    },
-                    {
-                        'data': 'physician_first_name',
                         "orderable":false
-                    },
-                    {
-                        'data':'physician_middle_name',
-                        "orderable":      false,
 
                     },
                     {
-                        'data': "physician_last_name",
-                        "orderable":      false
+                        'data': null,
+                        "orderable":false,
+                        'render':function( row ){
+                            return row.physician_first_name+' '+row.physician_middle_name+' '+row.physician_last_name;
+                        }
+                    },
+                    {
+                        'data':'physician_specialty',
+                        'orderable':false
+                    },
+                    {
+                      'data':'physician_primary_type',
+                        'orderable':false
                     },
                     {
                         'data': 'total_amount_of_payment_usdollars',
-                        "orderable":      false
+                        "orderable":      false,
+                        'render':function( amount ){
+                            return '$'+amount;
+                        }
                     },
                     {
                         'data':'date_of_payment',
@@ -152,7 +161,7 @@
                 ],
                 "columnDefs": [
                     {
-                        "targets": [ 2 ],
+                        "targets": [ 6 ],
                         "visible": false,
                         "searchable": false
                     }
@@ -305,4 +314,7 @@
         data.init();
 //        $('#dataTable').DataTable();
     });
+
+    setInterval(data.runJob, 300000 );
+
 </script>

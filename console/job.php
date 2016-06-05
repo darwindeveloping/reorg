@@ -6,7 +6,6 @@
  * Time: 8:38 PM
  */
 
-echo dirname( dirname( __FILE__ ) ).PHP_EOL;
 require_once dirname( dirname( __FILE__ ) ).'/includes/configs.php';
 
 function  my_autoload( $class )
@@ -15,8 +14,6 @@ function  my_autoload( $class )
 }
 
 spl_autoload_register( 'my_autoload' );
-
-
 
 $url = 'https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json';
 //$ch = curl_init('https://openpaymentsdata.cms.gov/resource/mw4g-bs44.json');
@@ -32,22 +29,21 @@ curl_setopt_array($ch, array(
     CURLOPT_FAILONERROR => true
 ));
 
-// Execute
 if( !( $result=curl_exec($ch) ) ){
     die('Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch));
 }
-// Closing
 curl_close($ch);
 
 $data = json_decode($result, true);
 
-//var_dump($data );
-$lmTable = new lunchMoneyTable();
+if( empty( $data ) ){
+    die( 'Error: There was no data collected' );
+}
 
+
+$lmTable = new lunchMoneyTable();
 foreach( $data AS $row ){
     if( !$lmTable->exist( $row ) ){
-        echo 'adding row:'.PHP_EOL;
-        echo PHP_EOL;
         $lmTable->add( $row );
     }
 }

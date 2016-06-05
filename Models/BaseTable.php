@@ -30,14 +30,21 @@ class BaseTable {
     }
 
     public function getAll(array $options = []){
-        $sql = 'SELECT * FROM '.$this->getTable();
+        $sql = 'SELECT
+                *
+                FROM '.$this->getTable();
 
      /*   if( isset( $options[ 'search '])){
             $sql .= 'WHERE '
         }
-     */   $sql .=  ' ORDER BY date_of_payment DESC';
-/*                    LIMIT '.$options[ 'length'].'
-                    OFFSET '.$options[ 'start'];*/
+     */
+        $sql .=  ' ORDER BY date_of_payment DESC ';
+
+        if( !empty( $options[ 'length'])){
+            $sql .= ' LIMIT '.$options[ 'length'].'
+                        OFFSET '.$options[ 'start'];
+        }
+
 
 
        return dbHandler::getAll( $sql );
@@ -62,8 +69,8 @@ class BaseTable {
              $parameters );
     }
 
-    protected function getParameters( array $row = []){
-        $result = [];
+    protected function getParameters( array $row = array()){
+        $result = array();
         foreach( $row AS $parameter => $value ){
             $result[ ':'.$parameter ] = $value;
         }
