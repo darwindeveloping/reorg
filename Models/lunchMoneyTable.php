@@ -27,7 +27,26 @@ class lunchMoneyTable extends BaseTable{
                             physician_license_state_code5,
                             physician_specialty,
                             physician_primary_type,
-                            physician_ownership_indicator
+                            recipient_primary_business_street_address_line1,
+                            recipient_primary_business_street_address_line2,
+                            recipient_city,
+                            recipient_state,
+                            recipient_zip_code,
+                            name_of_associated_covered_drug_or_biological1,
+                            name_of_associated_covered_drug_or_biological2,
+                            name_of_associated_covered_drug_or_biological3,
+                            name_of_associated_covered_drug_or_biological4,
+                            name_of_associated_covered_drug_or_biological5,
+                            ndc_of_associated_covered_drug_or_biological1,
+                            ndc_of_associated_covered_drug_or_biological2,
+                            ndc_of_associated_covered_drug_or_biological3,
+                            ndc_of_associated_covered_drug_or_biological4,
+                            ndc_of_associated_covered_drug_or_biological5,
+                            name_of_associated_covered_device_or_medical_supply1,
+                            name_of_associated_covered_device_or_medical_supply2,
+                            name_of_associated_covered_device_or_medical_supply3,
+                            name_of_associated_covered_device_or_medical_supply4,
+                            name_of_associated_covered_device_or_medical_supply5
                             )
                     AGAINST( :search IN BOOLEAN MODE)';
 

@@ -116,7 +116,9 @@ try{
   `ndc_of_associated_covered_drug_or_biological4` varchar(30) NOT NULL,
   `ndc_of_associated_covered_drug_or_biological5` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
-  FULLTEXT KEY `physician_first_name` (`physician_first_name`,`physician_middle_name`,`physician_last_name`,`physician_license_state_code1`,`physician_license_state_code2`,`physician_license_state_code3`,`physician_license_state_code4`,`physician_license_state_code5`,`physician_specialty`,`physician_primary_type`,`physician_ownership_indicator`)
+  FULLTEXT KEY `drugs` (`name_of_associated_covered_drug_or_biological1`,`name_of_associated_covered_drug_or_biological2`,`name_of_associated_covered_drug_or_biological3`,`name_of_associated_covered_drug_or_biological4`,`name_of_associated_covered_drug_or_biological5`,`ndc_of_associated_covered_drug_or_biological1`,`ndc_of_associated_covered_drug_or_biological2`,`ndc_of_associated_covered_drug_or_biological3`,`ndc_of_associated_covered_drug_or_biological4`,`ndc_of_associated_covered_drug_or_biological5`,`name_of_associated_covered_device_or_medical_supply1`,`name_of_associated_covered_device_or_medical_supply2`,`name_of_associated_covered_device_or_medical_supply3`,`name_of_associated_covered_device_or_medical_supply4`,`name_of_associated_covered_device_or_medical_supply5`),
+  FULLTEXT KEY `physician` (`physician_first_name`,`physician_middle_name`,`physician_last_name`,`physician_license_state_code1`,`physician_license_state_code2`,`physician_license_state_code3`,`physician_license_state_code4`,`physician_license_state_code5`,`physician_specialty`,`physician_primary_type`,`recipient_primary_business_street_address_line1`,`recipient_primary_business_street_address_line2`,`recipient_city`,`recipient_province`,`recipient_zip_code`,`recipient_state`)
+
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='holds the information about the doctor''s lunch money'" );
 }catch( Exception $e ){
     echo $e->getMessage().PHP_EOL;

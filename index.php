@@ -44,8 +44,10 @@
     <thead style="background-color:silver;">
         <tr>
             <th></th>
-            <th colspan="4">Physician Info</th>
+            <th colspan="5">Physician Info</th>
             <th colspan="2">Payment Information</th>
+            <th></th>
+            <th colspan="2">Associated Covered  Drugs or Biological</th>
             <th></th>
         </tr>
         <tr>
@@ -54,8 +56,12 @@
             <th>Primary Type</th>
             <th>Specialy</th>
             <th>License State</th>
+            <th>Address</th>
             <th>Total Amount</th>
             <th>Date Of Payment</th>
+            <th>Name of Associated Covered Device </th>
+            <th>Name</th>
+            <th>NDC</th>
             <th></th>
     </tr>
     </thead>
@@ -93,7 +99,7 @@
                     },
                     {
                         extend:'colvis',
-                        columns:[2,3,4,5,6],
+                        columns:[2,3,4,5,6, 7, 8, 9, 10],
                         collectionLayout: 'fixed two-column'
                     }
                 ],
@@ -146,6 +152,20 @@
                         }
                     },
                     {
+                        'data':'recipient_primary_business_street_address_line1',
+                        'orderable':false,
+                        'render':function( address, type, row ){
+                            var d = address;
+
+                            if( row.recipient_primary_business_street_address_line2.length > 0 ){
+                                d += ' '+row.recipient_primary_business_street_address_line2;
+                            }
+                            d += row.recipient_city+', '+row.recipient_state+', '+row.recipient_zip_code;
+
+                            return d;
+                        }
+                    },
+                    {
                         'data': 'total_amount_of_payment_usdollars',
                         "orderable":      false,
                         'render':function( amount ){
@@ -165,6 +185,69 @@
                         }
                     },
                     {
+                      'data':'name_of_associated_covered_device_or_medical_supply1',
+                        'orderable':false,
+                        'render':function( device, type, row ){
+                            var codes = device;
+                            if( row.name_of_associated_covered_device_or_medical_supply2.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_device_or_medical_supply2;
+                            }
+                            if( row.name_of_associated_covered_device_or_medical_supply3.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_device_or_medical_supply3;
+                            }
+                            if( row.name_of_associated_covered_device_or_medical_supply4.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_device_or_medical_supply4;
+                            }
+                            if( row.name_of_associated_covered_device_or_medical_supply4.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_device_or_medical_supply4;
+                            }
+
+                            return codes;
+                        }
+                    },
+                    {
+                        'data':'name_of_associated_covered_drug_or_biological1',
+                        'orderable':false,
+                        'render':function( name, type, row ){
+                            var codes = name;
+                            if( row.name_of_associated_covered_drug_or_biological2.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_drug_or_biological2;
+                            }
+                            if( row.name_of_associated_covered_drug_or_biological3.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_drug_or_biological3;
+                            }
+                            if( row.name_of_associated_covered_drug_or_biological4.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_drug_or_biological4;
+                            }
+                            if( row.name_of_associated_covered_drug_or_biological5.length > 0 ){
+                                codes +=', '+row.name_of_associated_covered_drug_or_biological5;
+                            }
+
+                            return codes;
+                        }
+                    },
+                    {
+                        'data':'ndc_of_associated_covered_drug_or_biological1',
+                        'orderable':false,
+                        'render':function( name, type, row ){
+                            var codes = name;
+                            if( row.ndc_of_associated_covered_drug_or_biological2.length > 0 ){
+                                codes +=', '+row.ndc_of_associated_covered_drug_or_biological2;
+                            }
+                            if( row.ndc_of_associated_covered_drug_or_biological3.length > 0 ){
+                                codes +=', '+row.ndc_of_associated_covered_drug_or_biological3;
+                            }
+                            if( row.ndc_of_associated_covered_drug_or_biological4.length > 0 ){
+                                codes +=', '+row.ndc_of_associated_covered_drug_or_biological4;
+                            }
+                            if( row.ndc_of_associated_covered_drug_or_biological5.length > 0 ){
+                                codes +=', '+row.ndc_of_associated_covered_drug_or_biological5;
+                            }
+
+                            return codes;
+                        }
+                    },
+                    {
                         "className":      'details-control',
                         "orderable":      false,
                         "data":           null,
@@ -173,7 +256,7 @@
                 ],
                 "columnDefs": [
                     {
-                        "targets": [ 7 ],
+                        "targets": [ 4, 8,9,10 ],
                         "visible": false,
                         "searchable": false
                     }
