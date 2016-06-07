@@ -30,13 +30,16 @@ curl_setopt_array($ch, array(
 ));
 
 if( !( $result=curl_exec($ch) ) ){
-    die('Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch));
+    $message = 'Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch);
+    mail( 'darsal09@yahoo.com', 'Open Payment Data', $message);
+    die($message);
 }
 curl_close($ch);
 
 $data = json_decode($result, true);
 
 if( empty( $data ) ){
+    mail( 'darsal09@yahoo.com', 'Open Payment Data', 'Error: There was no data collected' );
     die( 'Error: There was no data collected' );
 }
 
