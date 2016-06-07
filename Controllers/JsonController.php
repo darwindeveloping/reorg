@@ -34,7 +34,7 @@ class JsonController {
             $total = count( $data );
         }else{
             $data = $lmTable->getAll( $options );
-            $lmTable->getTotalCount($options );
+            $total = $lmTable->getTotalCount($options );
         }
 
         $result[ 'data']  =  $data;
